@@ -3,14 +3,13 @@ import {
   effect,
   ElementRef,
   inject,
+  model,
   OnDestroy,
   OnInit,
-  signal,
   ViewChild,
 } from '@angular/core';
 import { MessageService } from '../../../core/services/message-service';
 import { MemberService } from '../../../core/services/member-service';
-import { Message } from '../../../types/message';
 import { DatePipe } from '@angular/common';
 import { TimeAgoPipe } from '../../../core/pipes/time-ago-pipe';
 import { FormsModule } from '@angular/forms';
@@ -29,7 +28,7 @@ export class MemberMessages implements OnInit, OnDestroy {
   private memberService = inject(MemberService);
   protected presenceService = inject(PresenceService);
   private route = inject(ActivatedRoute);
-  protected messageContent = '';
+  protected messageContent = model('');
 
   constructor() {
     effect(() => {
@@ -54,11 +53,11 @@ export class MemberMessages implements OnInit, OnDestroy {
 
   sendMessage() {
     const recipientId = this.memberService.member()?.id;
-    if (!recipientId) return;
+    if (!recipientId || !this.messageContent()) return;
     this.messageService
-      .sendMessage(recipientId, this.messageContent)
+      .sendMessage(recipientId, this.messageContent())
       ?.then(() => {
-        this.messageContent = '';
+        this.messageContent.set('');
       });
   }
 

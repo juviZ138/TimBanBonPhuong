@@ -51,9 +51,7 @@ export class MemberList implements OnInit {
     this.modal.open();
   }
 
-  onClose() {
-    console.log('modal close');
-  }
+  onClose() {}
 
   onFilterChange(data: MemberParams) {
     this.memberParams = { ...data };

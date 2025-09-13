@@ -24,7 +24,6 @@ export class FilterModal {
 
   constructor() {
     const filters = localStorage.getItem('filters');
-    console.log(filters);
     if (filters) {
       this.memberParams.set(JSON.parse(filters));
     }
